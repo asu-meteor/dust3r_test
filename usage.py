@@ -17,7 +17,8 @@ if __name__ == '__main__':
     model = AsymmetricCroCo3DStereo.from_pretrained(model_name).to(device)
     # load_images can take a list of images or a directory
     import glob
-    all_images = sorted(glob.glob('autocal2_images/camera_*.jpg')) # 20 images from autocal2
+    # all_images = sorted(glob.glob('autocal2_images/camera_*.jpg')) # 20 images from autocal2
+    all_images = sorted(glob.glob('autocal2_resized/256x144_resized_resized_camera_*.jpg')) # 20 images from autocal2
     # all_images = sorted(glob.glob('webcam_photos/webcam_*.jpg')) # 5 images for quick testing
     images = load_images(all_images, size=512)
     pairs = make_pairs(images, scene_graph='complete', prefilter=None, symmetrize=True)
@@ -86,11 +87,11 @@ if __name__ == '__main__':
     for i in range(n_viz):
         (x0, y0), (x1, y1) = viz_matches_im0[i].T, viz_matches_im1[i].T
         pl.plot([x0, x1 + W0], [y0, y1], '-+', color=cmap(i / (n_viz - 1)), scalex=False, scaley=False)
-    # pl.show(block=True)
+    pl.show(block=True)
 
     # Save to json file
     import json
-    json_filename = 'output.json'
+    json_filename = 'output_256_resized.json'
 
     dictonary = {
         'focals': focals.tolist(),
