@@ -17,8 +17,8 @@ if __name__ == '__main__':
     model = AsymmetricCroCo3DStereo.from_pretrained(model_name).to(device)
     # load_images can take a list of images or a directory
     import glob
-    # all_images = sorted(glob.glob('autocal2_images/camera_*.jpg')) # 20 images from autocal2
-    all_images = sorted(glob.glob('webcam_photos/webcam_*.jpg')) # 5 images for quick testing
+    all_images = sorted(glob.glob('autocal2_images/camera_*.jpg')) # 20 images from autocal2
+    # all_images = sorted(glob.glob('webcam_photos/webcam_*.jpg')) # 5 images for quick testing
     images = load_images(all_images, size=512)
     pairs = make_pairs(images, scene_graph='complete', prefilter=None, symmetrize=True)
     output = inference(pairs, model, device, batch_size=batch_size)
@@ -52,6 +52,7 @@ if __name__ == '__main__':
     confidence_masks = scene.get_masks()
 
     intrinsics = scene.get_intrinsics()
+    extrinsics = scene.get_im_poses().cpu() # Originally cams2world, but we call them extrinsics
 
     # visualize reconstruction
     # scene.show() 
@@ -93,7 +94,8 @@ if __name__ == '__main__':
 
     dictonary = {
         'focals': focals.tolist(),
-        'intrinsics': intrinsics.tolist()
+        'intrinsics': intrinsics.tolist(),
+        'extrinsics': extrinsics.tolist()
     }
     
     with open(json_filename, 'w') as f:
