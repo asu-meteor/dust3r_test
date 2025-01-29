@@ -18,7 +18,7 @@ if __name__ == '__main__':
     # load_images can take a list of images or a directory
     import glob
     # all_images = sorted(glob.glob('autocal2_images/camera_*.jpg')) # 20 images from autocal2
-    all_images = sorted(glob.glob('autocal2_resized/256x144_resized_resized_camera_*.jpg')) # 20 images from autocal2
+    all_images = sorted(glob.glob('autocal2_resized/380x120_resized_camera_*.jpg')) # 20 images from autocal2
     # all_images = sorted(glob.glob('webcam_photos/webcam_*.jpg')) # 5 images for quick testing
     images = load_images(all_images, size=512)
     pairs = make_pairs(images, scene_graph='complete', prefilter=None, symmetrize=True)
@@ -91,7 +91,7 @@ if __name__ == '__main__':
 
     # Save to json file
     import json
-    json_filename = 'output_256_resized.json'
+    json_filename = 'output_380_resized.json'
 
     dictonary = {
         'focals': focals.tolist(),
